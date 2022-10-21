@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+
 export const AuthContext = React.createContext({})
 
 export const AuthProvider = (props) => {
@@ -8,7 +9,9 @@ export const AuthProvider = (props) => {
 
     const [image, setImage] = useState('')
     const [token, setToken] = useState('')
+    const [rend, setRend] = useState(false)
 
+    const [authenticated, setAuthenticated] = useState(false)
     useEffect(() => {
         const userStorage = localStorage.getItem('user')
         const imageStorage = localStorage.getItem('image')
@@ -23,9 +26,11 @@ export const AuthProvider = (props) => {
             setToken('')
         }
     }, [])
+
+
    
     return (
-        <AuthContext.Provider value={{token, setToken, user, setUser, password, setPassword, image, setImage}}>
+        <AuthContext.Provider value={{ authenticated, setAuthenticated,  rend, setRend, token, setToken, user, setUser, password, setPassword, image, setImage}}>
             {props.children}
         </AuthContext.Provider>
     )
