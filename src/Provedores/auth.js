@@ -1,33 +1,34 @@
-import { createContext, useState } from "react";
-import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
+export const AuthContext = React.createContext({})
 
-export const AuthContext = createContext();
+export const AuthProvider = (props) => {
+    const [user, setUser] = useState('')
+    const [password, setPassword] = useState('')
 
-export const AuthProvider = ({ children }) => {
-    
-    const [user, setUser] = useState(null)
-    
-    const  login =  (email, password) => {
-        const history = unstable_HistoryRouter
-       /*  const navigate = useNavigate()  */
-        console.log('login', { email, password })
+    const [image, setImage] = useState('')
+    const [token, setToken] = useState('')
 
-        if(password==='123'){
-            setUser({
-                id: '123',
-                email
-            });
-            history.push('/habitos')
-           /*  navigate('/habitos')   */
-         
+    useEffect(() => {
+        const userStorage = localStorage.getItem('user')
+        const imageStorage = localStorage.getItem('image')
+        const tokenStorage = localStorage.getItem('token')
+        if(userStorage){
+            setUser(JSON.parse(userStorage))
+            setImage(JSON.parse(imageStorage))
+            setToken(JSON.parse(tokenStorage))
+        } else {
+            setUser('')
+            setImage('')
+            setToken('')
         }
-       
-    }
+    }, [])
    
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, login }}>
-            {children}
+        <AuthContext.Provider value={{token, setToken, user, setUser, password, setPassword, image, setImage}}>
+            {props.children}
         </AuthContext.Provider>
     )
 }
+
+export const useAuth = () => React.useContext(AuthContext)

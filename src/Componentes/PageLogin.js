@@ -1,38 +1,62 @@
-import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
+import axios from "axios"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../img/Logo.jpg"
-import { AuthContext } from "../Provedores/auth"
-
-
-
+import { useAuth } from "../Provedores/auth"
 
 function PageLogin() {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-   
-    const {authenticated, login} = useContext(AuthContext)
-
-    function handleSubmit(e){
-        e.preventDefault();
-        console.log('submit', {email, password})
-        login(email, password)
+    const navigate = useNavigate('')
+    const URLLogin = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
+    const { setToken, user, setUser, password, setPassword, setImage } = useAuth()
+    const body = {
+        email: user,
+        password: password
     }
-    console.log(authenticated)
 
+    
+    function handleSubmit(e) {
+        e.preventDefault();
+        const promise = axios.post(URLLogin, body)
+         
+        promise.then((res) => {
+            console.log(res.data)
+            navigate('/habitos')
 
+            const image = res.data.image
+            const token = res.data.token
+            
+            localStorage.setItem('image', JSON.stringify(image))
+            localStorage.setItem('token', JSON.stringify(token))
+            
+            setImage(image)
+            setToken(token)
+        
+        })
+
+        promise.catch((erro) => {
+            alert(erro.response.data.message)
+        })
+        
+        localStorage.setItem('user', JSON.stringify(user))
+       
+    
+        setUser(user)
+        
+        
+    }
+   
     return (
         <Div>
             <Link to='/'>
-            <ImgLogo src={logo} />
+                <ImgLogo src={logo} />
             </Link>
-            
+
             <Form onSubmit={(e) => handleSubmit(e)}>
 
                 <input
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    value={user}
+                    onChange={(e) => setUser(e.target.value)}
                     id="email"
                     placeholder="email"
                     name='email' type='email'
@@ -47,12 +71,11 @@ function PageLogin() {
                     name='senha' type='password'
                     required></input>
 
-               {/*  <Link to='/habitos'> */}
-                <button  type='submit'>Entrar</button>
-               {/*  </Link> */}
+                <button type='submit'>Entrar</button>
+
             </Form>
             <Link to='/cadastro'>
-            <A>Não tem uma conta? Cadastre-se!</A>
+                <A>Não tem uma conta? Cadastre-se!</A>
             </Link>
         </Div>
     )

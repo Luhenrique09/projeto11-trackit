@@ -2,24 +2,13 @@ import PageLogin from "./PageLogin"
 import GlobalStyle from "../GlobalStyle"
 import Cadastro from "./PageCadastro"
 import Habitos from "./PageHabitos"
-import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom"
-import { AuthContext, AuthProvider } from "../Provedores/auth"
-import { useContext } from "react"
-import { children } from "react/cjs/react.production.min"
+import { Route, BrowserRouter, Routes } from "react-router-dom"
+import { AuthProvider } from "../Provedores/auth"
+
 
 
 
 function App() {
-
- /*    const Private = ({children}) => {
-        const {authenticated} = useContext(AuthContext)
-
-        if(!authenticated){
-            return <Navigate to='/'/>
-        }
-
-        return children */
-    
 
     return (
         <div>

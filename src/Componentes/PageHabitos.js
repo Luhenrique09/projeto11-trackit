@@ -1,14 +1,17 @@
 import styled from "styled-components"
+import { useAuth } from "../Provedores/auth"
 
 function Habitos (){
+    const {image, token} = useAuth()
+   
     return(
         <div>
             <Topo>
             <LogoP>TrackIt</LogoP>
-            <img src="https://cdn.dicionariopopular.com/imagens/imagem-de-perfil-gato.jpg?auto_optimize=low" />
+            <img alt="profile" src={image} />
+            
             </Topo>
-
-
+            
         </div>
     )
 }
