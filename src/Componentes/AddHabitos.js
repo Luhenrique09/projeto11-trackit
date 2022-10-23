@@ -2,9 +2,10 @@ import axios from "axios"
 import { useState } from "react"
 import styled from "styled-components"
 import {  useAuth } from "../Provedores/auth"
+import loading_1 from '../img/Loading_2.gif'
 
 function AddHabitos() {
-
+    const [loading, setLoading] = useState(false)
     const { setRend, token } = useAuth()
     const [habito, setHabito] = useState()
     const [dias, setDias] = useState([])
@@ -14,6 +15,7 @@ function AddHabitos() {
         name: habito,
         days: dias
     }
+   
     function cancela() {
         setRend(false)
     }
@@ -27,15 +29,16 @@ function AddHabitos() {
         e.preventDefault();
         
         const promise = axios.post(URLCriar, body, config)
-       
+        setLoading(true)
         promise.then((res) => {
             console.log(res.data)
             setRend(false)
-
+            setLoading(false)
         })
 
         promise.catch((erro) => {
             alert(erro.response.data.message)
+            setLoading(false)
         })
 
 
@@ -59,7 +62,8 @@ function AddHabitos() {
             <Form onSubmit={(e) => handleSubmit(e)}>
 
                 <input
-                    
+                    data-identifier="input-habit-name"
+                    disabled={loading}
                     onChange={e => setHabito(e.target.value)}
                     id="habito"
                     placeholder="Nome do hábito"
@@ -68,6 +72,7 @@ function AddHabitos() {
 
                 <Dias>
                 {D.map((d, i) => <div 
+                data-identifier="week-day-btn"
                 key={i}
                 className={`${dias.includes(i) ? 'gray' : 'white'}`} 
                 onClick={() => handleclick(i)}
@@ -76,8 +81,15 @@ function AddHabitos() {
                 </Dias>
 
                 <Div2 ><h1
+                data-identifier="cancel-habit-create-btn"
                     onClick={cancela}>Cancelar</h1>
-                    <button type='submit'>Salvar</button>
+                    <button
+                    data-identifier="save-habit-create-btn"
+                    type='submit'>
+                        {loading ? <Gif src={loading_1}  />
+                : "Salvar"
+                }
+                    </button>
 
                 </Div2>
             </Form>
@@ -87,6 +99,10 @@ function AddHabitos() {
 }
 
 export default AddHabitos
+
+const Gif = styled.img`
+    width: 30px;
+`
 
 const Div = styled.div`
     width: 340px;

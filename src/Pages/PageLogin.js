@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../img/Logo.jpg"
 import { useAuth } from "../Provedores/auth"
+import loading_1 from '../img/Loading_2.gif'
+import { useState } from "react"
 
 function PageLogin() {
 
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate('')
     const URLLogin = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
     const { setToken, user, setUser, password, setPassword, setImage } = useAuth()
@@ -18,11 +21,12 @@ function PageLogin() {
     function handleSubmit(e) {
         e.preventDefault();
         const promise = axios.post(URLLogin, body)
+        setLoading(true)
          
         promise.then((res) => {
             console.log(res.data)
             navigate('/habitos')
-
+            setLoading(false)
             const image = res.data.image
             const token = res.data.token
             
@@ -36,6 +40,7 @@ function PageLogin() {
 
         promise.catch((erro) => {
             alert(erro.response.data.message)
+            setLoading(false)
         })
         
         localStorage.setItem('user', JSON.stringify(user))
@@ -55,6 +60,8 @@ function PageLogin() {
             <Form onSubmit={(e) => handleSubmit(e)}>
 
                 <input
+                data-identifier="input-email"
+                disabled={loading}
                     value={user}
                     onChange={(e) => setUser(e.target.value)}
                     id="email"
@@ -64,6 +71,8 @@ function PageLogin() {
 
 
                 <input
+                data-identifier="input-password"
+                disabled={loading}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     id="senha"
@@ -71,17 +80,24 @@ function PageLogin() {
                     name='senha' type='password'
                     required></input>
 
-                <button type='submit'>Entrar</button>
+                <button data-identifier="login-btn"
+                 type='submit'>{loading ? <Gif src={loading_1}  />
+                : "Entrar"
+                }</button>
 
             </Form>
             <Link to='/cadastro'>
-                <A>Não tem uma conta? Cadastre-se!</A>
+                <A data-identifier="sign-up-action">Não tem uma conta? Cadastre-se!</A>
             </Link>
         </Div>
     )
 }
 
 export default PageLogin
+
+const Gif = styled.img`
+    width: 30px;
+`
 
 const Div = styled.div`
     margin-top: 68px;
@@ -107,12 +123,14 @@ const Form = styled.form`
     border-radius: 5px;
     ::placeholder{
         font-family: 'Lexend Deca';
+        font-family: 'Lexend Deca';
         line-height: 25px;
         color: #DBDBDB;
     }
     }
 
     button{
+        font-family: 'Lexend Deca';
         width: 303px;
         height: 45px;
         background-color: #52b6ff;

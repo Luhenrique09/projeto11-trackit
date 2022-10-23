@@ -3,9 +3,11 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../img/Logo.jpg"
+import loading_1 from '../img/Loading_2.gif'
+
 
 function Cadastro() {
-
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [nome, setNome] = useState('')
@@ -22,15 +24,16 @@ const body = {
     function cadastrar() {
         
         const promise = axios.post(URLCadastro, body)
-
+        setLoading(true)
         promise.then((res) => {
             console.log(res.data)
             navigate('/')
-
+            setLoading(false)
         })
 
         promise.catch((erro) => {
             alert(erro.response.data.message)
+            setLoading(false)
         })
 
     }
@@ -51,6 +54,8 @@ const body = {
             <Form onSubmit={(e) => handleSubmit(e)}>
 
                 <input
+                data-identifier="input-email"
+                disabled={loading}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     id="email"
@@ -60,6 +65,8 @@ const body = {
 
 
                 <input
+                data-identifier="input-password"
+                disabled={loading}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     id="senha"
@@ -68,6 +75,8 @@ const body = {
                     required></input>
 
                 <input
+                data-identifier="input-name"
+                disabled={loading}
                     value={nome}
                     onChange={e => setNome(e.target.value)}
                     id="nome"
@@ -76,6 +85,8 @@ const body = {
                     required></input>
 
                 <input
+                data-identifier="input-photo"
+                disabled={loading}
                     value={foto}
                     onChange={e => setFoto(e.target.value)}
                     id="foto"
@@ -83,11 +94,15 @@ const body = {
                     name='foto' type='text'
                     required></input>
 
-                <button onClick={() => cadastrar()} type='submit'>Cadastrar</button>
+                <button 
+                disabled={loading}
+                onClick={() => cadastrar()} 
+                type='submit'>{loading ? <Gif src={loading_1}/>:'Cadastrar'}
+                </button>
 
             </Form>
             <Link to='/'>
-                <A>Já tem uma conta? Faça login!</A>
+                <A data-identifier="back-to-login-action">Já tem uma conta? Faça login!</A>
             </Link>
         </Div>
     )
@@ -95,6 +110,10 @@ const body = {
 }
 
 export default Cadastro
+
+const Gif = styled.img`
+    width: 30px;
+`
 
 const Div = styled.div`
     margin-top: 68px;
@@ -126,6 +145,7 @@ const Form = styled.form`
     }
 
     button{
+        font-family: 'Lexend Deca';
         width: 303px;
         height: 45px;
         background-color: #52b6ff;

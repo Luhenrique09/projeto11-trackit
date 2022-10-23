@@ -1,30 +1,28 @@
 import styled from "styled-components"
+import MenuInf from "../Componentes/MenuInf"
 import { useAuth } from "../Provedores/auth"
 
-function Top () {
-    const { setRend } = useAuth()
 
-    function Add(){
-        setRend(true)
-    }
-    const {image} = useAuth()
-    return(
+function Historico (){
+    const { image } = useAuth()
+    return (
         <div>
-        <Topo>
-        <LogoP>TrackIt</LogoP>
-        <img data-identifier="avatar" 
-        alt="profile" src={image} />
-        </Topo>
-        <Menu>
-            <h1>Meus Hábitos</h1> 
-            <div onClick={Add} data-identifier="create-habit-btn" >+</div>
-        </Menu>
-      
+             <Topo>
+                <LogoP>TrackIt</LogoP>
+                <img alt="profile" src={image} />
+            </Topo>
+            <Menu>
+                <h1>Histórico</h1>
+                <h2>Em breve você poderá ver o histórico dos seus hábitos aqui!</h2>
+
+            </Menu>
+            <MenuInf/>
         </div>
     )
+
 }
 
-export default Top
+export default Historico
 
 const LogoP = styled.div`
  font-family: 'Playball', cursive;
@@ -55,14 +53,13 @@ const Topo = styled.div`
         border-radius: 50%;
     }
 `
-
 const Menu = styled.div`
-    margin-top: 70px;
+    margin-top: 90px;
     width: 100%;
     height: 85px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     padding-left: 18px;
     padding-right: 18px;
 
@@ -71,18 +68,11 @@ const Menu = styled.div`
         font-size: 22.976px;
         color: #126BA5;
     }
-    div{
-        
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 35px;
-        background: #52B6FF;
-        border-radius: 4.63636px;
-        color: white;
-        font-size:30px;
-        
+    h2{
+        font-family: 'Lexend Deca';
+        margin-top: 17px;
+       font-size:18px ;
+       color: #666666;
     }
+  
 `
-

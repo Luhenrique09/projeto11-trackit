@@ -1,16 +1,23 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-function MenuInf () {
-    
-    return(
+
+function MenuInf() {
+
+    return (
         <div>
-        <Div>
-            <h2>Hábitos</h2>
-            <Hoje>Hoje</Hoje>
-            <h2>Histórico</h2>
-           
-        </Div>
-       
+            <Div>
+                <Link to='/habitos'>
+                    <h2 data-identifier="habit-page-action">Hábitos</h2>
+                </Link>
+                <Link to='/hoje'>
+                    <Hoje>Hoje</Hoje>
+                </Link>
+                <Link to='/historico'>
+                    <h2 data-identifier="historic-page-action">Histórico</h2>
+                </Link>
+            </Div>
+
         </div>
     )
 }

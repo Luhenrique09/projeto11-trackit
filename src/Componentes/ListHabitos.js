@@ -8,11 +8,7 @@ import { useEffect, useState } from "react"
 function ListHabitos() {
     const { token, habitosList, sethabitosList } = useAuth()
     const URLListar = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
-
-    const [t, sett] = useState(false)
-
-
-
+    
     const D = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
     const config = {
@@ -27,7 +23,7 @@ function ListHabitos() {
         const promise = axios.get(URLListar, config)
         promise.then((resp) => {
             sethabitosList(resp.data)
-            sett(true)
+          
 
         })
 
@@ -42,7 +38,7 @@ function ListHabitos() {
 
         const htmlDays = D.map((d, index) => {
             if (days.includes(index)) {
-                return <div key={index} className="gray">
+                return <div  key={index} className="gray">
                     {d}
                 </div>
             }
@@ -70,7 +66,7 @@ function ListHabitos() {
     return (
         <div>
             {habitosList.length === 0 ?
-                <Divb>
+                <Divb data-identifier="no-habit-message">
                     Você não tem nenhum hábito cadastrado ainda.
                     Adicione um hábito para começar a trackear!
                 </Divb> : <div>
@@ -78,8 +74,10 @@ function ListHabitos() {
                     {habitosList.map((obj, indx) =>
                         <Div key={indx}>
                             <div>
-                                <h2>{obj.name}</h2>
-                                <BiTrash onClick={() => DelHabits(obj.id)} />
+                                <h2 data-identifier="habit-name">{obj.name}</h2>
+                                <BiTrash 
+                                data-identifier="delete-habit-btn"
+                                onClick={() => DelHabits(obj.id)} />
                             </div>
 
                             <Dias>
@@ -111,12 +109,15 @@ const Div = styled.div`
     padding-top: 13px;
     margin-bottom:10px ;
     border-radius: 5px;
+    
     div{
+        font-family: 'Lexend Deca';
         display: flex;
         justify-content: space-between;
         margin-bottom:10px; 
     }
     h2{
+        font-family: 'Lexend Deca';
         color:#666666;
         font-size: 20px;
     }
@@ -134,7 +135,7 @@ const Dias = styled.div`
         border-radius: 5px;  
         font-size:20px ;
         margin-right: 5px;
-      
+        font-family: 'Lexend Deca';
     }
 `
 
