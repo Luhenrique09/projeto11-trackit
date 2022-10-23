@@ -12,6 +12,18 @@ body {
   background-color: #E5E5E5;
 }
 
+.white{
+	background-color: white;
+	color:#dbdbdb;
+	border: 1px solid #D5D5D5;
+}
+
+.gray{
+	background-color: #dbdbdb;
+	color: white;
+	border: 1px solid #CFCFCF;
+}
+
 
 
 /* http://meyerweb.com/eric/tools/css/reset/

@@ -7,23 +7,25 @@ function AddHabitos() {
 
     const { setRend, token } = useAuth()
     const [habito, setHabito] = useState()
+    const [dias, setDias] = useState([])
+    const D = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
     const URLCriar = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
     const body = {
         name: habito,
-        days: [1, 3, 5]
+        days: dias
     }
     function cancela() {
         setRend(false)
     }
-   
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
+        
         const promise = axios.post(URLCriar, body, config)
        
         promise.then((res) => {
@@ -36,8 +38,21 @@ function AddHabitos() {
             alert(erro.response.data.message)
         })
 
-         
+
     }
+
+    function handleclick(n) {
+       if(!dias.includes(n)) {
+        setDias([...dias, n])
+       }
+      else{ 
+           const novosDias = dias.filter((a) => a !== n )
+           setDias(novosDias)
+       }
+       
+      
+    }
+   
     
     return (
         <Div>
@@ -52,13 +67,12 @@ function AddHabitos() {
                     required></input>
 
                 <Dias>
-                    <div>D</div>
-                    <div>S</div>
-                    <div>T</div>
-                    <div>Q</div>
-                    <div>Q</div>
-                    <div>S</div>
-                    <div>S</div>
+                {D.map((d, i) => <div 
+                key={i}
+                className={`${dias.includes(i) ? 'gray' : 'white'}`} 
+                onClick={() => handleclick(i)}
+                >{d}</div>)}
+                   
                 </Dias>
 
                 <Div2 ><h1
@@ -133,9 +147,7 @@ const Dias = styled.div`
         align-items: center;
         width: 30px;
         height: 30px;
-        border: 1px solid #d5d5d5;
         border-radius: 5px;  
-        color: #dbdbdb;
         font-size:20px ;
         margin-right: 5px;
     }

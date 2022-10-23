@@ -10,16 +10,18 @@ export const AuthProvider = (props) => {
     const [image, setImage] = useState('')
     const [token, setToken] = useState('')
     const [rend, setRend] = useState(false)
+    const [habitosList, sethabitosList] = useState([])
 
-    const [authenticated, setAuthenticated] = useState(false)
+
     useEffect(() => {
         const userStorage = localStorage.getItem('user')
         const imageStorage = localStorage.getItem('image')
         const tokenStorage = localStorage.getItem('token')
-        if(userStorage){
+        if(tokenStorage){
             setUser(JSON.parse(userStorage))
             setImage(JSON.parse(imageStorage))
             setToken(JSON.parse(tokenStorage))
+            
         } else {
             setUser('')
             setImage('')
@@ -30,7 +32,7 @@ export const AuthProvider = (props) => {
 
    
     return (
-        <AuthContext.Provider value={{ authenticated, setAuthenticated,  rend, setRend, token, setToken, user, setUser, password, setPassword, image, setImage}}>
+        <AuthContext.Provider value={{habitosList, sethabitosList, rend, setRend, token, setToken, user, setUser, password, setPassword, image, setImage}}>
             {props.children}
         </AuthContext.Provider>
     )

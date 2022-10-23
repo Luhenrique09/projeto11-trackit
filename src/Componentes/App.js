@@ -1,7 +1,7 @@
-import PageLogin from "./PageLogin"
+import PageLogin from "../Pages/PageLogin"
 import GlobalStyle from "../GlobalStyle"
-import Cadastro from "./PageCadastro"
-import Habitos from "./PageHabitos"
+import Cadastro from "../Pages/PageCadastro"
+import Habitos from "../Pages/PageHabitos"
 import { Route, BrowserRouter, Routes } from "react-router-dom"
 import { AuthProvider } from "../Provedores/auth"
 
