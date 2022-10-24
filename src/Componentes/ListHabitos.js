@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { BiTrash } from 'react-icons/bi'
 import { useAuth } from "../Provedores/auth"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 
 function ListHabitos() {
@@ -14,7 +14,7 @@ function ListHabitos() {
     const config = {
         headers: {
             "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjIwNywiaWF0IjoxNjY2NDgyNTUwfQ.cI3LO9stNWWourHbWfDL-RR42pmOyVPo1V2icDWbYJg`
-        }
+        } // so esta funcionando com token fixo
     }
     useEffect(() => {
 

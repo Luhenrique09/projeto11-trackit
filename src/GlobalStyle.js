@@ -24,6 +24,12 @@ body {
 	border: 1px solid #CFCFCF;
 }
 
+.green{
+	background-color: #8FC549;
+}
+.grayCheck{
+	background-color: #EBEBEB;
+}
 
 
 /* http://meyerweb.com/eric/tools/css/reset/

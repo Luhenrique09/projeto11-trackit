@@ -6,28 +6,44 @@ import { useEffect, useState } from "react"
 import MenuInf from "../Componentes/MenuInf"
 import dayjs from 'dayjs'
 function Hoje() {
-    const { image, token, habitosList } = useAuth()
+    const tokenFixo = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjIwNywiaWF0IjoxNjY2NDgyNTUwfQ.cI3LO9stNWWourHbWfDL-RR42pmOyVPo1V2icDWbYJg'
+    const { image, token } = useAuth()
     const [habitoHoje, sethabitoHoje] = useState([])
-    const DaysS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
+    const [check, setCheck] = useState(false)
+    const DaysS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado']
     const config = {
         headers: {
-            "Authorization": `Bearer ${token}`
-        }
+            "Authorization": `Bearer ${tokenFixo}`
+        } // SO FUNCIONA COM TOKEN FIXO =========================
     }
     const URLListar = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
     useEffect(() => {
         const promise = axios.get(URLListar, config)
         promise.then((resp) => {
-
             sethabitoHoje(resp.data)
         })
 
         promise.catch((error) => console.log(error.response.data.message))
 
-
-
     }, [])
 
+    function clickCheck(id) {
+        
+setCheck(!check)
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${tokenFixo}`
+                }
+            }
+                const promisse = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`, id,  config)
+                promisse.then((resp)=>SelectedHabitRight(id))
+                promisse.catch((error)=>console.log(error.message))
+    
+    }
+    function SelectedHabitRight(id){
+    }
+
+    
     return (
         <div>
 
@@ -39,28 +55,33 @@ function Hoje() {
             <Menu>
                 <h1>{
 
-                    `${DaysS[dayjs().$W]}, ${dayjs().date()}/${dayjs().month()} `}
+                    `${DaysS[dayjs().$W]}, ${dayjs().date()}/${dayjs().month() + 1} `}
                 </h1>
                 <h2>Nenhum hábito concluído ainda</h2>
 
             </Menu>
-            {habitosList.days.includes(dayjs().$W) ?
-                <div>
-                    {habitoHoje.map((obj, i) => <div key={i}>
+
+            <div>
+                {habitoHoje.map((obj, i) =>
+                    <div key={i}>
+
                         <Box>
                             <div>
                                 <h2>{obj.name}</h2>
                                 <p>Sequência atual: {obj.currentSequence}</p>
                                 <p>Seu recorde: {obj.highestSequence}</p>
                             </div>
-                            <Check >
-                                <img src={vector} />
+
+                            <Check className={check ? 'green' : 'grayCheck'}
+                                check={check} onClick={() => clickCheck(obj.id)}  >
+                                <img alt='check' src={vector} />
                             </Check>
                         </Box>
 
-                    </div>)}
-                </div> : null
-            }
+                    </div>
+
+                )}
+            </div>
 
             <MenuInf />
         </div>
@@ -154,14 +175,13 @@ p{
 const Check = styled.div`
 
     width: 69px;
-    height: 69px;
-    background-color: #EBEBEB;
+    height: 69px;    
     border-color: #E7E7E7;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     margin-right: 10px;
-    
+
 
 `
